@@ -50,18 +50,18 @@ export default function PaginationTable({ isNewEntry }) {
 
   const handleDeleteDiary = async (diaryID, editUserId, image_url) => {
     console.log(`${editUserId}`, username, `${image_url}`);
-    const imgRef = ref(storage, `${image_url}`);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
       try{ 
         await fetch(`${BASE_URL}/diaries/${diaryID}`, {
-        credentials: "include",
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+          credentials: "include",
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const imgRef = ref(storage, `${image_url}`);
         deleteObject(imgRef).then(() => {
          console.log("File deleted successfully");
        }).catch((error) => {
