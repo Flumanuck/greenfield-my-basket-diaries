@@ -1,5 +1,5 @@
 import { Box, Button, Modal, Paper, Typography } from "@mui/material";
-import PaginationTable from "./MasonryContainer";
+import UserPaginationTable from "./UserPaginationTable";
 import FileUpload from "./FileUpload";
 import { useState } from "react";
 
@@ -56,7 +56,7 @@ export default function Dashboard() {
       </Modal>
 
       {/* TABLE */}
-      <PaginationTable isNewEntry={isNewEntry} />
+      <UserPaginationTable isNewEntry={isNewEntry} />
     </Box>
   );
 }
