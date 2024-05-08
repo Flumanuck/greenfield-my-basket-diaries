@@ -55,7 +55,7 @@ export default function PaginationTable({ isNewEntry }) {
       });
       handleReadData();
     } else {
-      alert("you shall not delete");
+      alert("you shall not delete someone else's diary");
     }
   };
 

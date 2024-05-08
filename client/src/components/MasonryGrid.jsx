@@ -96,7 +96,7 @@ export default function MasonryGrid({
             </IconButton>
             <IconButton
               aria-label="share"
-              sx={{ color: "white" }}
+              sx={{ color: "white", ":active": { color: red[500] } }}
               onClick={() => handleDeleteDiary(entry.diary_id, entry.user_id)}
             >
               <DeleteIcon />

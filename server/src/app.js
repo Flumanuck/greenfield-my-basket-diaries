@@ -2,7 +2,6 @@ require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: "./.env" });
 
 const app = express();
 app.set("trust proxy", 1);
