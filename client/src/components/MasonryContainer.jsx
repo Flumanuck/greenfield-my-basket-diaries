@@ -49,16 +49,12 @@ export default function PaginationTable({ isNewEntry }) {
   };
 
   const handleDeleteDiary = async (diaryID, editUserId, image_url) => {
-    console.log(`${editUserId}`, username, `${image_url}`, storage);
+    console.log(`${editUserId}`, username, `${image_url}`);
     const imgRef = ref(storage, `${image_url}`);
-    deleteObject(imgRef).then(() => {
-      console.log("File deleted successfully");
-    }).catch((error) => {
-      console.error("Uh-oh, an error occurred!");
-    });
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
-      await fetch(`${BASE_URL}/diaries/${diaryID}`, {
+      try{ 
+        await fetch(`${BASE_URL}/diaries/${diaryID}`, {
         credentials: "include",
         method: "DELETE",
         headers: {
@@ -66,6 +62,14 @@ export default function PaginationTable({ isNewEntry }) {
           Authorization: `Bearer ${token}`,
         },
       });
+        deleteObject(imgRef).then(() => {
+         console.log("File deleted successfully");
+       }).catch((error) => {
+          console.error("Uh-oh, an error occurred!");
+        });
+      } catch (err) {
+        console.error(err);
+      }
       handleReadData();
     } else {
       alert("you shall not delete someone else's diary");
