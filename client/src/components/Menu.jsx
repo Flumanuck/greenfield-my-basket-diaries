@@ -14,7 +14,9 @@ import Logout from "@mui/icons-material/Logout";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
-export default function MenuSimple() {
+export default function MenuSimple(props) {
+  const { firstMenuItemOnClick } = props;
+
   // USE STATE
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -71,7 +73,11 @@ export default function MenuSimple() {
           <Avatar sx={{ marginRight: 1, bgcolor: "#5d89c7" }} /> Profile
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => {
+          firstMenuItemOnClick();
+          handleClose();
+          }
+        }>
           <ListItemIcon>
             <RestaurantIcon fontSize="small" />
           </ListItemIcon>

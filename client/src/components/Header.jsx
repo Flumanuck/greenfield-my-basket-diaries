@@ -2,7 +2,9 @@ import MenuSimple from "./Menu";
 import "./Header.css";
 import { Typography } from "@mui/material";
 
-const Header = () => {
+const Header = ( props ) => {
+  const { firstMenuItemOnClick } = props;
+
   return (
     <div className="header">
       <img
@@ -10,7 +12,7 @@ const Header = () => {
 
         style={{ transform: "scale(1.5) translate(30px)" }}
       />
-      <MenuSimple className="MenuSimple" />
+      <MenuSimple firstMenuItemOnClick = {firstMenuItemOnClick} className="MenuSimple" />
     </div>
   );
 };

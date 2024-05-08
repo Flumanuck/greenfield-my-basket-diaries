@@ -32,11 +32,13 @@ module.exports = {
   deleteDiary(deletedId) {
     return knex(DIARY_TABLE).where("diary_id", deletedId).del();
   },
+
   editDiaryTitle(diaryID, foodTitle) {
     return knex(DIARY_TABLE).where({ diary_id: diaryID }).update({
       food_title: foodTitle,
     });
   },
+  
   editDiaryDescription(diaryID, foodDescription) {
     return knex(DIARY_TABLE).where({ diary_id: diaryID }).update({
       food_description: foodDescription,
