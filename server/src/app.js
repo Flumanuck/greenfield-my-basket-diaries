@@ -2,7 +2,6 @@ require("dotenv").config({ path: "./.env" });
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: "./.env" });
 
 const app = express();
 app.set("trust proxy", 1);
@@ -33,7 +32,7 @@ app.post("/diaries",auth, diaryController.createDiary);
 app.patch("/diaries/:id",auth, diaryController.editDiary);
 app.delete("/diaries/:id",auth, diaryController.deleteDiary);
 
-//MIDDLEWARE FOR AUTHENTICATIONj
+//MIDDLEWARE FOR AUTHENTICATION
 function auth(req, res, next) {
   //splitting the token value from the text in teh Header
   const token = req.headers.authorization?.split(" ")[1];

@@ -7,12 +7,7 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-// Firebase
-import { getStorage, ref, deleteObject } from "firebase/storage";
-import { storage } from "../config/firebase";
-
-
-export default function PaginationTable({ isNewEntry }) {
+export default function UserPaginationTable({ isNewEntry }) {
   // USE STATE
   const [entries, setEntries] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -28,20 +23,9 @@ export default function PaginationTable({ isNewEntry }) {
   }, [isNewEntry]);
 
   // HANDLERS FUNCTION
-  const storage = getStorage();
-
   const handleReadData = async () => {
     const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`${BASE_URL}/diaries/`, {
-      credentials: "include",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }); 
-    const data = await response.json();
-    const userInitialsRes = await fetch(`${BASE_URL}/userInitials`, {
+    const response = await fetch(`${BASE_URL}/diaries/${username}`, {
       credentials: "include",
       method: "GET",
       headers: {
@@ -49,10 +33,7 @@ export default function PaginationTable({ isNewEntry }) {
         Authorization: `Bearer ${token}`,
       },
     });
-    const initialData = await userInitialsRes.json();
-    data.map((entry, index) => {
-      entry["initials"] = initialData[index].initials
-    })
+    const data = await response.json();
     const sortedDataDesc = data.sort((a, b) => {
       return b.diary_id - a.diary_id;
     });
@@ -60,31 +41,21 @@ export default function PaginationTable({ isNewEntry }) {
     setEntries([...sortedDataDesc]);
   };
 
-  const handleDeleteDiary = async (diaryID, editUserId, image_url) => {
-    console.log(`${editUserId}`, username, `${image_url}`);
+  const handleDeleteDiary = async (diaryID, editUserId) => {
+    console.log(`${editUserId}`, username);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
-      try{ 
-        await fetch(`${BASE_URL}/diaries/${diaryID}`, {
-          credentials: "include",
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const imgRef = ref(storage, `${image_url}`);
-        deleteObject(imgRef).then(() => {
-         console.log("File deleted successfully");
-       }).catch((error) => {
-          console.error("Uh-oh, an error occurred!");
-        });
-      } catch (err) {
-        console.error(err);
-      }
+      await fetch(`${BASE_URL}/diaries/${diaryID}`, {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       handleReadData();
     } else {
-      alert("you shall not delete someone else's diary");
+      alert("you shall not delete");
     }
   };
 
