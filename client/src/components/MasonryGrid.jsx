@@ -39,7 +39,6 @@ export default function MasonryGrid({
       spacing={2}
       style={{ width: "100%" }}
     >
-      <div>
         {entries.map((entry, index) => (
           <DiaryCard
             key={index}
@@ -50,8 +49,7 @@ export default function MasonryGrid({
             setEditId={setEditId}
             setEditUserId={setEditUserId}
           />
-        ))};
-      </div>
+        ))}
     </Masonry>
   )
 };
