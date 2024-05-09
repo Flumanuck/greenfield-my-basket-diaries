@@ -23,6 +23,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const username = localStorage.getItem("userInitials") ? localStorage.getItem("userInitials").toUpperCase() : ""
 
+
 export default function MasonryGrid({
   entries,
   handleDeleteDiary,
@@ -31,7 +32,7 @@ export default function MasonryGrid({
   setEditId,
   setEditUserId
 }) {
-
+  
   // RETURN
   return (
     <Masonry

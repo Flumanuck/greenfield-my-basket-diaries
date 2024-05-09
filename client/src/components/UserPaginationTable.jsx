@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-const username = localStorage.getItem("userId");
 
 // @MUI
 import MasonryGrid from "./MasonryGrid";
@@ -25,7 +24,9 @@ export default function UserPaginationTable({ isNewEntry }) {
   // HANDLERS FUNCTION
   const handleReadData = async () => {
     const token = localStorage.getItem("jwtToken");
-    const response = await fetch(`${BASE_URL}/diaries/${username}`, {
+    const userId = localStorage.getItem("userId");
+    const userInitials = localStorage.getItem("userInitials").toUpperCase();
+    const response = await fetch(`${BASE_URL}/diaries/${userId}`, {
       credentials: "include",
       method: "GET",
       headers: {
@@ -34,6 +35,7 @@ export default function UserPaginationTable({ isNewEntry }) {
       },
     });
     const data = await response.json();
+    data.map(entry => entry['initials'] = userInitials);
     const sortedDataDesc = data.sort((a, b) => {
       return b.diary_id - a.diary_id;
     });
@@ -42,6 +44,7 @@ export default function UserPaginationTable({ isNewEntry }) {
   };
 
   const handleDeleteDiary = async (diaryID, editUserId) => {
+    const username = localStorage.getItem("userId");
     console.log(`${editUserId}`, username);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
@@ -63,6 +66,7 @@ export default function UserPaginationTable({ isNewEntry }) {
   const handleClose = () => setIsEdit(false);
 
   const handleEditDiary = async (diaryID, editUserId) => {
+    let username = localStorage.getItem("userId");
     console.log(`${editUserId}`, username);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");

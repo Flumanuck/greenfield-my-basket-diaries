@@ -3,8 +3,6 @@ import UploadButton from "./UploadButton";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const username = localStorage.getItem("userId");
-const userID = Number(username);
 
 // FIREBASE
 import "./FileUpload.css";
@@ -84,6 +82,8 @@ export default function FileUpload({ setIsNewEntry, handleClose }) {
 
   // upload to Database
   const uploadToDatabase = async () => {
+    const username = localStorage.getItem("userId");
+    const userID = Number(username);
     const token = localStorage.getItem("jwtToken");
     const response = await fetch(`${BASE_URL}/diaries`, {
       method: "POST",
