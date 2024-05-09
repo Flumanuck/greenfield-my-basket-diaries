@@ -1,6 +1,5 @@
 const knex = require("../knex");
 const DIARY_TABLE = "diary";
-const LOGIN_TABLE = "login";
 
 module.exports = {
   getAll() {
@@ -21,18 +20,6 @@ module.exports = {
 
   getDiarybyUserID(userID) {
     return knex.select("*").where("user_id", userID).from(DIARY_TABLE);
-  },
-
-  getAllUserInitials() {
-    return knex.table(DIARY_TABLE)
-      .innerJoin(LOGIN_TABLE, `${DIARY_TABLE}.user_id`, '=', `${LOGIN_TABLE}.id`)
-      .select(`${LOGIN_TABLE}.email`, `${DIARY_TABLE}.user_id`)
-      .then(results => {
-        return results.map(entry => ({
-          initials: entry.email.substring(0, 2).toUpperCase(),
-          user_id: entry.user_id
-        }));
-      });
   },
 
   editDiary(diaryID, foodTitle, foodDescription) {
