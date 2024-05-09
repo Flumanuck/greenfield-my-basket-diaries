@@ -27,6 +27,7 @@ app.post("/verify_user", loginController.verifyUser);
 //DIARY ENDPOINTS
 app.get("/diaries",auth, diaryController.getAll);
 app.get("/diaries/:userID",auth, diaryController.getDiarybyUserID);
+app.get("/userInitials", auth, diaryController.getAllUserInitials);
 app.post("/diaries",auth, diaryController.createDiary);
 app.patch("/diaries/:id",auth, diaryController.editDiary);
 app.delete("/diaries/:id",auth, diaryController.deleteDiary);

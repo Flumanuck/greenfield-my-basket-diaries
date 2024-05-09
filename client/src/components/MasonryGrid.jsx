@@ -21,6 +21,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const username = localStorage.getItem("userInitials") ? localStorage.getItem("userInitials").toUpperCase() : ""
 
+
 export default function MasonryGrid({
   entries,
   handleDeleteDiary,
@@ -51,7 +52,7 @@ export default function MasonryGrid({
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: "rgb(224,137,146)" }} aria-label="recipe">
-                {entry.user_id}
+                {entry.initials}
               </Avatar>
             }
             title={<Typography variant="h6">{entry.food_title}</Typography>}
