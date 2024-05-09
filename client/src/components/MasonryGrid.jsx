@@ -15,7 +15,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DateConversion from "../utils/DateConversion";
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Box, Button, Modal, TextField, createTheme, ThemeProvider } from "@mui/material";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -27,8 +27,26 @@ export default function MasonryGrid({
   handleReadData,
   setIsEdit,
   setEditId,
-  setEditUserId,
+  setEditUserId
 }) {
+  const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#FFFFFF", 
+      },
+      secondary: {
+        main: red[500],
+      },
+    },
+  });
+
+  const handleFavoriteClick = () => {
+    setIsFavoriteClicked(!isFavoriteClicked);
+    console.log("is fav clicked?", isFavoriteClicked);
+  };
+
   // RETURN
   return (
     <Masonry
@@ -69,7 +87,7 @@ export default function MasonryGrid({
               entry.image_url ||
               "https://firebasestorage.googleapis.com/v0/b/my-basket-diaries.appspot.com/o/diaryEntries%2FnoImage.png?alt=media&token=33a5d687-5b67-4284-a340-f8f2f8bb07de"
             }
-            alt="Paella dish"
+            alt="Image Not Found"
           />
           <CardContent>
             <Typography variant="body2" color="text.white">
@@ -77,14 +95,19 @@ export default function MasonryGrid({
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
+          <ThemeProvider theme={theme}>
+            <div>
+              <IconButton
+               aria-label="favorite"
+               sx={{":active": { color: red[500] }}}
+               onClick={handleFavoriteClick} color={isFavoriteClicked ? "secondary" :   "primary"}
+              >
+                <FavoriteIcon />
+              </IconButton>
+            </div>
+          </ThemeProvider>
             <IconButton
-              aria-label="add to favorites"
-              sx={{ color: "white", ":active": { color: red[500] } }}
-            >
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton
-              aria-label="add to favorites"
+              aria-label="edit"
               sx={{ color: "white", ":active": { color: red[500] } }}
               onClick={() => {
                 setEditId(entry.diary_id);
@@ -95,7 +118,7 @@ export default function MasonryGrid({
               <EditIcon />
             </IconButton>
             <IconButton
-              aria-label="share"
+              aria-label="delete"
               sx={{ color: "white", ":active": { color: red[500] } }}
               onClick={() => handleDeleteDiary(entry.diary_id, entry.user_id, entry.image_url)}
             >
