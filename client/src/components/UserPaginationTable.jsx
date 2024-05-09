@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import MasonryGrid from "./MasonryGrid";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 
+// Firebase
+import { getStorage, ref, deleteObject } from "firebase/storage";
+import { storage } from "../config/firebase";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function UserPaginationTable({ isNewEntry }) {
@@ -43,22 +46,32 @@ export default function UserPaginationTable({ isNewEntry }) {
     setEntries([...sortedDataDesc]);
   };
 
-  const handleDeleteDiary = async (diaryID, editUserId) => {
-    const username = localStorage.getItem("userId");
-    console.log(`${editUserId}`, username);
+  const handleDeleteDiary = async (diaryID, editUserId, image_url) => {
+    const username = localStorage.getItem("userId"); 
+    console.log(`${editUserId}`, username, `${image_url}`);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
-      await fetch(`${BASE_URL}/diaries/${diaryID}`, {
-        credentials: "include",
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try{ 
+        await fetch(`${BASE_URL}/diaries/${diaryID}`, {
+          credentials: "include",
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const imgRef = ref(storage, `${image_url}`);
+        deleteObject(imgRef).then(() => {
+         console.log("File deleted successfully");
+       }).catch((error) => {
+          console.error("Uh-oh, an error occurred!");
+        });
+      } catch (err) {
+        console.error(err);
+      }
       handleReadData();
     } else {
-      alert("you shall not delete");
+      alert("you shall not delete someone else's diary");
     }
   };
 
