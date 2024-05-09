@@ -52,7 +52,8 @@ export default function PaginationTable({ isNewEntry }) {
     data.map((entry, index) => {
       entry["initials"] = initialData[index].initials
     })
-    const sortedDataDesc = data.sort((a, b) => {
+    const filteredData = data.filter(entry => entry.user_id !== Number(localStorage.getItem("userId")));
+    const sortedDataDesc = filteredData.sort((a, b) => {
       return b.diary_id - a.diary_id;
     });
 
