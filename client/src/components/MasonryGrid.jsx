@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import DiaryCard from "./DiaryCard";
+
 // @MUI
 import Masonry from "@mui/lab/Masonry";
 import Card from "@mui/material/Card";
@@ -29,23 +31,6 @@ export default function MasonryGrid({
   setEditId,
   setEditUserId
 }) {
-  const [isFavoriteClicked, setIsFavoriteClicked] = useState(false);
-
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#FFFFFF", 
-      },
-      secondary: {
-        main: red[500],
-      },
-    },
-  });
-
-  const handleFavoriteClick = () => {
-    setIsFavoriteClicked(!isFavoriteClicked);
-    console.log("is fav clicked?", isFavoriteClicked);
-  };
 
   // RETURN
   return (
@@ -54,79 +39,19 @@ export default function MasonryGrid({
       spacing={2}
       style={{ width: "100%" }}
     >
-      {entries.map((entry, index) => (
-        <Card
-          key={index}
-          sx={{
-            transition: "ease-in-out 0.2s",
-            backgroundColor: "rgba(60,157,179,0.7)",
-            color: "white",
-            maxWidth: 345,
-            borderRadius: 2,
-            ":hover": { boxShadow: 10, transform: "scale(1.02)" },
-          }}
-        >
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: "rgb(224,137,146)" }} aria-label="recipe">
-                {entry.user_id}
-              </Avatar>
-            }
-            title={<Typography variant="h6">{entry.food_title}</Typography>}
-            subheader={
-              <Typography variant="caption">
-                {`${DateConversion(entry.date_created).date},
-              ${DateConversion(entry.date_created).time}`}
-              </Typography>
-            }
+      <div>
+        {entries.map((entry, index) => (
+          <DiaryCard
+            key={index}
+            entry={entry}
+            handleDeleteDiary={handleDeleteDiary}
+            handleReadData={handleReadData}
+            setIsEdit={setIsEdit}
+            setEditId={setEditId}
+            setEditUserId={setEditUserId}
           />
-          <CardMedia
-            component="img"
-            height="194"
-            image={
-              entry.image_url ||
-              "https://firebasestorage.googleapis.com/v0/b/my-basket-diaries.appspot.com/o/diaryEntries%2FnoImage.png?alt=media&token=33a5d687-5b67-4284-a340-f8f2f8bb07de"
-            }
-            alt="Image Not Found"
-          />
-          <CardContent>
-            <Typography variant="body2" color="text.white">
-              {entry.food_description}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-          <ThemeProvider theme={theme}>
-            <div>
-              <IconButton
-               aria-label="favorite"
-               sx={{":active": { color: red[500] }}}
-               onClick={handleFavoriteClick} color={isFavoriteClicked ? "secondary" :   "primary"}
-              >
-                <FavoriteIcon />
-              </IconButton>
-            </div>
-          </ThemeProvider>
-            <IconButton
-              aria-label="edit"
-              sx={{ color: "white", ":active": { color: red[500] } }}
-              onClick={() => {
-                setEditId(entry.diary_id);
-                setIsEdit(true);
-                setEditUserId(entry.user_id);
-              }}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              aria-label="delete"
-              sx={{ color: "white", ":active": { color: red[500] } }}
-              onClick={() => handleDeleteDiary(entry.diary_id, entry.user_id, entry.image_url)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </CardActions>
-        </Card>
-      ))}
+        ))};
+      </div>
     </Masonry>
-  );
-}
+  )
+};
