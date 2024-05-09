@@ -24,7 +24,7 @@ export default function Dashboard() {
         // backgroundColor: "rgb(230, 144, 153)",
       }}
     >
-      <Typography variant={'h2'}>User Dashboard</Typography>
+      <Typography variant={'h3'}>My Food Diaries</Typography>
       {/* FILE UPLOAD */}
       <Button
         variant="contained"
