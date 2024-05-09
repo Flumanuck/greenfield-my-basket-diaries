@@ -26,7 +26,7 @@ function App() {
   return (
     <>
       {/* HEADER */}
-      <Header firstMenuItemOnClick = {() => setDashboardDisplaySetting(DISPLAY_USER_DASHBOARD)}/>
+      <Header homeButtonOnClick={() => setDashboardDisplaySetting(DISPLAY_DASHBOARD)} firstMenuItemOnClick={() => setDashboardDisplaySetting(DISPLAY_USER_DASHBOARD)}/>
       <Divider sx={{ margin: 1 }} />
 
       {handleDashboardRender()}
