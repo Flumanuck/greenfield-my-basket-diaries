@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import DiaryCard from "./DiaryCard";
+
 // @MUI
 import Masonry from "@mui/lab/Masonry";
 import Card from "@mui/material/Card";
@@ -15,7 +17,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DateConversion from "../utils/DateConversion";
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Box, Button, Modal, TextField, createTheme, ThemeProvider } from "@mui/material";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -28,41 +30,9 @@ export default function MasonryGrid({
   handleReadData,
   setIsEdit,
   setEditId,
-  setEditUserId,
+  setEditUserId
 }) {
-  const handleRenderEditButton = (entry) => {
-    const entryUserId = entry.user_id;
-    const currentLoggedInUserId = Number(localStorage.getItem("userId"));
-    if ( currentLoggedInUserId === entryUserId) {
-      return <IconButton
-        aria-label="add to favorites"
-        sx={{ color: "white", ":active": { color: red[500] } }}
-        onClick={() => {
-        setEditId(entry.diary_id);
-        setIsEdit(true);
-        setEditUserId(entry.user_id);
-        }}
-        >
-          <EditIcon />
-      </IconButton>
-    } else {
-      <React.Fragment></React.Fragment>
-    }
-  }
-
-  const handleRenderDeleteButton = (entry) => {
-    const entryUserId = entry.user_id;
-    const currentLoggedInUserId = Number(localStorage.getItem("userId"));
-    if (currentLoggedInUserId === entryUserId) {
-      return (<IconButton
-              aria-label="share"
-              sx={{ color: "white", ":active": { color: red[500] } }}
-              onClick={() => handleDeleteDiary(entry.diary_id, entry.user_id, entry.image_url)}
-            >
-              <DeleteIcon />
-            </IconButton>)
-    } else return <React.Fragment></React.Fragment>
-  }
+  
   // RETURN
   return (
     <Masonry
@@ -70,58 +40,17 @@ export default function MasonryGrid({
       spacing={2}
       style={{ width: "100%" }}
     >
-      {entries.map((entry, index) => (
-        <Card
-          key={index}
-          sx={{
-            transition: "ease-in-out 0.2s",
-            backgroundColor: "rgba(60,157,179,0.7)",
-            color: "white",
-            maxWidth: 345,
-            borderRadius: 2,
-            ":hover": { boxShadow: 10, transform: "scale(1.02)" },
-          }}
-        >
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: "rgb(224,137,146)" }} aria-label="recipe">
-                {entry.initials}
-              </Avatar>
-            }
-            title={<Typography variant="h6">{entry.food_title}</Typography>}
-            subheader={
-              <Typography variant="caption">
-                {`${DateConversion(entry.date_created).date},
-              ${DateConversion(entry.date_created).time}`}
-              </Typography>
-            }
+        {entries.map((entry, index) => (
+          <DiaryCard
+            key={index}
+            entry={entry}
+            handleDeleteDiary={handleDeleteDiary}
+            handleReadData={handleReadData}
+            setIsEdit={setIsEdit}
+            setEditId={setEditId}
+            setEditUserId={setEditUserId}
           />
-          <CardMedia
-            component="img"
-            height="194"
-            image={
-              entry.image_url ||
-              "https://firebasestorage.googleapis.com/v0/b/my-basket-diaries.appspot.com/o/diaryEntries%2FnoImage.png?alt=media&token=33a5d687-5b67-4284-a340-f8f2f8bb07de"
-            }
-            alt="Paella dish"
-          />
-          <CardContent>
-            <Typography variant="body2" color="text.white">
-              {entry.food_description}
-            </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            <IconButton
-              aria-label="add to favorites"
-              sx={{ color: "white", ":active": { color: red[500] } }}
-            >
-              <FavoriteIcon />
-            </IconButton>
-            {handleRenderEditButton(entry)}
-            {handleRenderDeleteButton(entry)}
-          </CardActions>
-        </Card>
-      ))}
+        ))}
     </Masonry>
-  );
-}
+  )
+};

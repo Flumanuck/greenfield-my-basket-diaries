@@ -89,7 +89,6 @@ export default function PaginationTable({ isNewEntry }) {
     }
   };
 
-  // HANDLERS FUNCTION
   const handleClose = () => setIsEdit(false);
 
   const handleEditDiary = async (diaryID, editUserId) => {
