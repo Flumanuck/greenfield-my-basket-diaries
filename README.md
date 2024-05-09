@@ -118,6 +118,12 @@ You have not only helped us solve difficult problems but also challenged us to a
   - Product Owner: Frontend and Backend Engineer (Firebase setup)
 - **[Dominik](https://github.com/dmnkvn)**
   - Tech Lead: Backend Implementation Engineer (User Verification)
+- **[Jacob](https://github.com/Flumanuck)**
+  -Additional Contributor: Full Stack Engineer (Displays IDs as avatar)
+- **[Jarrod](https://github.com/J-Ariola)**
+  -Additional Contributor: Front End Engineer (User Dashboard and Main Dashboard)
+- **[Ning](https://github.com/NChang55)**
+  -Additional Contributor: Front End + Firebase (Delete Entries from Firebase and favorite button on entries)
 
 ### Libraries and Packages
 
