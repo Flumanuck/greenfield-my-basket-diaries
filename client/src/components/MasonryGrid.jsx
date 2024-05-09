@@ -21,7 +21,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const username = localStorage.getItem("userInitials") ? localStorage.getItem("userInitials").toUpperCase() : ""
 
-
 export default function MasonryGrid({
   entries,
   handleDeleteDiary,
@@ -30,39 +29,6 @@ export default function MasonryGrid({
   setEditId,
   setEditUserId,
 }) {
-  const handleRenderEditButton = (entry) => {
-    const entryUserId = entry.user_id;
-    const currentLoggedInUserId = Number(localStorage.getItem("userId"));
-    if ( currentLoggedInUserId === entryUserId) {
-      return <IconButton
-        aria-label="add to favorites"
-        sx={{ color: "white", ":active": { color: red[500] } }}
-        onClick={() => {
-        setEditId(entry.diary_id);
-        setIsEdit(true);
-        setEditUserId(entry.user_id);
-        }}
-        >
-          <EditIcon />
-      </IconButton>
-    } else {
-      <React.Fragment></React.Fragment>
-    }
-  }
-
-  const handleRenderDeleteButton = (entry) => {
-    const entryUserId = entry.user_id;
-    const currentLoggedInUserId = Number(localStorage.getItem("userId"));
-    if (currentLoggedInUserId === entryUserId) {
-      return (<IconButton
-              aria-label="share"
-              sx={{ color: "white", ":active": { color: red[500] } }}
-              onClick={() => handleDeleteDiary(entry.diary_id, entry.user_id, entry.image_url)}
-            >
-              <DeleteIcon />
-            </IconButton>)
-    } else return <React.Fragment></React.Fragment>
-  }
   // RETURN
   return (
     <Masonry
@@ -85,7 +51,7 @@ export default function MasonryGrid({
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: "rgb(224,137,146)" }} aria-label="recipe">
-                {entry.initials}
+                {entry.user_id}
               </Avatar>
             }
             title={<Typography variant="h6">{entry.food_title}</Typography>}
@@ -117,8 +83,24 @@ export default function MasonryGrid({
             >
               <FavoriteIcon />
             </IconButton>
-            {handleRenderEditButton(entry)}
-            {handleRenderDeleteButton(entry)}
+            <IconButton
+              aria-label="add to favorites"
+              sx={{ color: "white", ":active": { color: red[500] } }}
+              onClick={() => {
+                setEditId(entry.diary_id);
+                setIsEdit(true);
+                setEditUserId(entry.user_id);
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              aria-label="share"
+              sx={{ color: "white", ":active": { color: red[500] } }}
+              onClick={() => handleDeleteDiary(entry.diary_id, entry.user_id, entry.image_url)}
+            >
+              <DeleteIcon />
+            </IconButton>
           </CardActions>
         </Card>
       ))}

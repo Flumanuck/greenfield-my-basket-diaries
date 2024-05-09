@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+const username = localStorage.getItem("userId");
 
 // @MUI
 import MasonryGrid from "./MasonryGrid";
@@ -38,20 +39,8 @@ export default function PaginationTable({ isNewEntry }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }); 
-    const data = await response.json();
-    const userInitialsRes = await fetch(`${BASE_URL}/userInitials`, {
-      credentials: "include",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
     });
-    const initialData = await userInitialsRes.json();
-    data.map((entry, index) => {
-      entry["initials"] = initialData[index].initials
-    })
+    const data = await response.json();
     const sortedDataDesc = data.sort((a, b) => {
       return b.diary_id - a.diary_id;
     });
@@ -60,7 +49,6 @@ export default function PaginationTable({ isNewEntry }) {
   };
 
   const handleDeleteDiary = async (diaryID, editUserId, image_url) => {
-    const username = localStorage.getItem("userId");
     console.log(`${editUserId}`, username, `${image_url}`);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
@@ -92,7 +80,6 @@ export default function PaginationTable({ isNewEntry }) {
   const handleClose = () => setIsEdit(false);
 
   const handleEditDiary = async (diaryID, editUserId) => {
-    const username = localStorage.getItem("userId");
     console.log(`${editUserId}`, username);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");

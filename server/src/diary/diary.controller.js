@@ -12,11 +12,6 @@ module.exports = {
     res.status(200).send(userDiaries);
   },
 
-  async getAllUserInitials(req, res) {
-    const userInitials = await diaryModel.getAllUserInitials();
-    res.status(200).send(userInitials);
-  },
-
   async createDiary(req, res) {
     const { userID, foodTitle, foodDescription, imageURL } = req.body;
     await diaryModel.createDiary(userID, foodTitle, foodDescription, imageURL);
