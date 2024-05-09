@@ -41,6 +41,10 @@ export default function PaginationTable({ isNewEntry }) {
       },
     });
     const data = await response.json();
+    const initialData = await userInitialsRes.json();
+    data.map((entry, index) => {
+      entry["initials"] = initialData[index].initials
+    })
     const sortedDataDesc = data.sort((a, b) => {
       return b.diary_id - a.diary_id;
     });
