@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-const username = localStorage.getItem("userId");
 
 // @MUI
 import MasonryGrid from "./MasonryGrid";
@@ -25,6 +24,7 @@ export default function UserPaginationTable({ isNewEntry }) {
   // HANDLERS FUNCTION
   const handleReadData = async () => {
     const token = localStorage.getItem("jwtToken");
+    const username = localStorage.getItem("userId");
     const response = await fetch(`${BASE_URL}/diaries/${username}`, {
       credentials: "include",
       method: "GET",
@@ -42,6 +42,7 @@ export default function UserPaginationTable({ isNewEntry }) {
   };
 
   const handleDeleteDiary = async (diaryID, editUserId) => {
+    const username = localStorage.getItem("userId");
     console.log(`${editUserId}`, username);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
@@ -63,6 +64,7 @@ export default function UserPaginationTable({ isNewEntry }) {
   const handleClose = () => setIsEdit(false);
 
   const handleEditDiary = async (diaryID, editUserId) => {
+    let username = localStorage.getItem("userId");
     console.log(`${editUserId}`, username);
     if (`${editUserId}` === username) {
       const token = localStorage.getItem("jwtToken");
